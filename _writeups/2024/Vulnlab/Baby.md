@@ -8,7 +8,6 @@ tags: windows
 date: 2024-09-05
 comments: true
 ---
-# Baby
 
 This is my write-up for the Baby machine from Vulnlab.
 
