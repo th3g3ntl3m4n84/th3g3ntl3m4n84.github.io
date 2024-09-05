@@ -1,27 +1,27 @@
 remote_theme: CaptainIRS/hacker-plus-theme
 
-title:
-author:
-description: 
+title: th3g3ntl3m4n's Cybersecurity (jpfdevs cybersecurity)
+author: th3g3ntl3m4n
+description: Writeups for plataforms like Vulnlab, Hack The Box, Try Hack Me, and all things of offensive security 
 disqus_forum_shortname:
 google_site_verification_content: # The 'content' tag for site verification
-google_analytics: # Your Google Analytics Tracking ID
+google_analytics: 578-215-1978 # Your Google Analytics Tracking ID
 
 # Usernames and badges
-htb_badge_no: # Go to the HackTheBox site and copy your ID
-thm_badge_no: # Go to https://tryhackme.com/profile -> Public Profile -> Get Badge ID
-show_thm_htb_badges_in_nav: false
-github_username: 
+htb_badge_no: 54328 # Go to the HackTheBox site and copy your ID
+thm_badge_no: 13082 # Go to https://tryhackme.com/profile -> Public Profile -> Get Badge ID
+show_thm_htb_badges_in_nav: true
+github_username: th3g3ntl3m4n84
 gitlab:
 medium:
 stackoverflow:
 hacker_news:
-linkedin:
+linkedin: 
 twitch:
-youtube:
-twitter: 
+youtube: jpfdevscybersecurity7523
+twitter: jpfdevscybersec
 facebook:
-instagram:
+instagram: 
 reddit:
 pinterest:
 telegram:
