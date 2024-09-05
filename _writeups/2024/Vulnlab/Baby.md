@@ -1,7 +1,7 @@
 ---
 layout: writeup
 category: Vulnlab
-chall_description: https://wiki.vulnlab.com/guidance/easy/baby
+chall_description: User: Look into anonymous LDAP Access. Root: Look at user privileges.
 points: 
 solves: 
 tags: windows
