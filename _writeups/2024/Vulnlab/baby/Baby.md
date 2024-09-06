@@ -1,7 +1,7 @@
 ---
 layout: writeup
 category: Vulnlab
-chall_description: User: Look into anonymous LDAP Access. Root: Look at user privileges.
+chall_description:
 points: 
 solves: 
 tags: windows
