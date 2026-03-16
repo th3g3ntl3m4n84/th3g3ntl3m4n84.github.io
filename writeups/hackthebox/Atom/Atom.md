@@ -9,9 +9,9 @@ sudo nmap -v -sS -Pn -p- --min-rate 300 --max-rate 500 10.10.10.237
 sudo nmap -vv -A -Pn -p 80,135,443,445,5985,6379,7680 -oA nmap/atom 10.10.10.237
 ```
 
-![](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/58ea9ec4-51e7-468a-bcff-7c44d473a81c/Untitled.png)
+![](images/Untitled.png)
 
-![](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1fcc9f75-e532-42fb-9bbd-8cf444c3d7d1/Untitled.png)
+![](images/Untitled%201.png)
 
 # Enumeration
 
@@ -20,7 +20,7 @@ sudo nmap -vv -A -Pn -p 80,135,443,445,5985,6379,7680 -oA nmap/atom 10.10.10.237
 └──╼ [★]$ gobuster dir -e -u "http://atom.htb/" -w "/usr/share/seclists/Discovery/Web-Content/raft-large-directories-lowercase.txt" -t 50 -x .yml,.php -o gobuster/atom_root.out
 ```
 
-![](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b62dabe2-cec2-4929-9f60-49e96b7ba631/Untitled.png)
+![](images/Untitled%202.png)
 
 ## SMB
 
@@ -31,7 +31,7 @@ sudo nmap -vv -A -Pn -p 80,135,443,445,5985,6379,7680 -oA nmap/atom 10.10.10.237
 └──╼ [★]$ crackmapexec smb 10.10.10.237
 ```
 
-![](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3bebc596-0c46-4cd2-b412-afd6cea20893/Untitled.png)
+![](images/Untitled%203.png)
 
 ## smbclient
 
@@ -40,27 +40,27 @@ sudo nmap -vv -A -Pn -p 80,135,443,445,5985,6379,7680 -oA nmap/atom 10.10.10.237
 └──╼ [★]$ smbclient -L [//10.10.10.237](notion://10.10.10.237/) -N
 ```
 
-![](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8bf72af6-c5f4-4062-96ff-74cef8b9cb67/Untitled.png)
+![](images/Untitled%204.png)
 
 ```bash
 ─[us-dedivip-1]─[10.10.16.232]─[th3g3ntl3m4n@ctf]─[~/htb/Atom]
 └──╼ [★]$ smbclient [//10.10.10.237/Software_Updates](notion://10.10.10.237/Software_Updates) -N
 ```
 
-![](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0e86e14d-7ba3-4d97-96a5-90240949b6c1/Untitled.png)
+![](images/Untitled%205.png)
 
 ```bash
 ─[us-dedivip-1]─[10.10.16.232]─[th3g3ntl3m4n@ctf]─[~/htb/Atom]
 └──╼ [★]$ smbclient [//10.10.10.237/Software_Updates](notion://10.10.10.237/Software_Updates) -N
 ```
 
-![](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7a97b466-7c25-419b-a63f-e48c12d2a32a/Untitled.png)
+![](images/Untitled%206.png)
 
 There's a file "UAT_Testing_Procedures.pdf" that contains some instructions to update the app
 
-![](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/da279bba-b36b-45ea-a008-64d19d5f7ac1/Untitled.png)
+![](images/Untitled%207.png)
 
-![](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a536da7e-929d-4a64-a39e-ad7230ffd808/Untitled.png)
+![](images/Untitled%208.png)
 
 # Exploitation
 
@@ -238,7 +238,7 @@ SMB         10.10.10.237    445    ATOM             [*] Windows 10 Pro 19042 x64
 SMB         10.10.10.237    445    ATOM             [+] ATOM\Administrator:kidvscat_admin_@123 (Pwn3d!)
 ```
 
-![](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/caad1fdb-b51b-41ec-abac-fd3a267f4cdd/Untitled.png)
+![](images/Untitled%209.png)
 
 ## psexec.py
 
@@ -265,4 +265,4 @@ nt authority\system
 
 Administrator:kidvscat_admin_@123
 
-![](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ecfc6dbf-0204-49ce-b5cc-a9465e990403/Untitled.png)
+![](images/Untitled%2010.png)
