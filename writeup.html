@@ -42,7 +42,8 @@
         if (pathParts.length > 1) base = '/' + pathParts.slice(0, -1).join('/') + '/';
       }
 
-      var platformPath = 'writeups/' + platform + '/';
+      var platformDir = platform === 'htb' ? 'hackthebox' : platform;
+      var platformPath = 'writeups/' + platformDir + '/';
       var slugPath = slug + '.md';
       var subfolderPath = platformPath + slug + '/' + slug + '.md';
       var flatPath = platformPath + slugPath;
