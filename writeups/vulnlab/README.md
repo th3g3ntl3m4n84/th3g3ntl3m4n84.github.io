@@ -1,10 +1,10 @@
 # VulnLab write-ups
 
-Coloque aqui seus write-ups VulnLab em arquivos `.md`.
+Place your VulnLab write-ups here as `.md` files.
 
-- Um arquivo por máquina/lab, por exemplo: `corrosion.md`, `shared.md`.
-- Imagens na pasta `images/`, ex.: `images/corrosion-1.png`.
-- No markdown: `![Legenda](images/corrosion-1.png)`.
+- One file per machine/lab, e.g.: `corrosion.md`, `shared.md`.
+- Images in the `images/` folder, e.g.: `images/corrosion-1.png`.
+- In markdown: `![Caption](images/corrosion-1.png)`.
 
-Na página de write-ups, linke assim:  
-`writeup.html?platform=vulnlab&slug=corrosion` (sem a extensão .md).
+On the write-ups page, link like this:  
+`writeup.html?platform=vulnlab&slug=corrosion` (without the .md extension).

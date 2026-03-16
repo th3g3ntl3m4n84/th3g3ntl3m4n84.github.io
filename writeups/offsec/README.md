@@ -1,10 +1,10 @@
 # OffSec write-ups (OSCP / Proving Grounds)
 
-Coloque aqui seus write-ups OffSec em arquivos `.md`.
+Place your OffSec write-ups here as `.md` files.
 
-- Um arquivo por máquina, por exemplo: `brainstorm.md`, `sunday.md`.
-- Imagens na pasta `images/`, ex.: `images/brainstorm-nmap.png`.
-- No markdown: `![Legenda](images/brainstorm-nmap.png)`.
+- One file per machine, e.g.: `brainstorm.md`, `sunday.md`.
+- Images in the `images/` folder, e.g.: `images/brainstorm-nmap.png`.
+- In markdown: `![Caption](images/brainstorm-nmap.png)`.
 
-Na página de write-ups, linke assim:  
-`writeup.html?platform=offsec&slug=brainstorm` (sem a extensão .md).
+On the write-ups page, link like this:  
+`writeup.html?platform=offsec&slug=brainstorm` (without the .md extension).

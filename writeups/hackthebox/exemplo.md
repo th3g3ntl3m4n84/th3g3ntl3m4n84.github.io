@@ -1,33 +1,33 @@
-# Exemplo — Hack The Box (template)
+# Example — Hack The Box (template)
 
-Write-ups devem ser criados em **markdown** (.md) e podem incluir imagens na pasta `images/` desta mesma pasta.
+Write-ups should be created in **markdown** (.md) and can include images in the `images/` folder in this same directory.
 
-## Estrutura
+## Structure
 
-- Coloque cada write-up em um arquivo `.md` em `writeups/hackthebox/` (ou `vulnlab/`, `offsec/`).
-- Imagens: use a pasta `images/` dentro da mesma plataforma, por exemplo:
+- Put each write-up in a `.md` file under `writeups/hackthebox/` (or `vulnlab/`, `offsec/`).
+- Images: use the `images/` folder within the same platform, e.g.:
   - `writeups/hackthebox/images/screenshot1.png`
-  - No markdown: `![Descrição](images/screenshot1.png)` ou `![Descrição](./images/screenshot1.png)`.
+  - In markdown: `![Caption](images/screenshot1.png)` or `![Caption](./images/screenshot1.png)`.
 
-## Exemplo de imagem
+## Image example
 
-Adicione imagens em `writeups/hackthebox/images/` e use no markdown:  
-`![Legenda](images/sua-imagem.png)`.
+Add images in `writeups/hackthebox/images/` and use in markdown:  
+`![Caption](images/your-image.png)`.
 
-## Exemplo de código
+## Code example
 
 ```bash
 nmap -sC -sV -oA scan 10.10.10.x
 ```
 
-## Como adicionar um novo write-up
+## How to add a new write-up
 
-1. Crie `writeups/hackthebox/nome-da-maquina.md`.
-2. Adicione imagens em `writeups/hackthebox/images/`.
-3. Na página de write-ups, adicione um link:  
-   `writeup.html?platform=htb&slug=nome-da-maquina`  
-   (use `vulnlab` ou `offsec` e o slug correspondente para as outras plataformas).
+1. Create `writeups/hackthebox/machine-name.md`.
+2. Add images in `writeups/hackthebox/images/`.
+3. On the write-ups page, add a link:  
+   `writeup.html?platform=htb&slug=machine-name`  
+   (use `vulnlab` or `offsec` and the matching slug for the other platforms).
 
 ---
 
-*Este arquivo é um template. Substitua pelo conteúdo do seu write-up ou apague e crie novos .md com seus labs.*
+*This file is a template. Replace it with your write-up content or remove it and create new .md files for your labs.*

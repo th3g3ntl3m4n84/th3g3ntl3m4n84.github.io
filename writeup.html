@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en-US">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,15 +11,15 @@
   <div class="container">
     <header>
       <nav>
-        <a href="index.html">Início</a>
+        <a href="index.html">Home</a>
         <a href="writeups.html">← Write-ups</a>
       </nav>
     </header>
 
     <main class="writeup-content" id="content">
-      <a href="writeups.html" class="back-link">← Voltar aos write-ups</a>
+      <a href="writeups.html" class="back-link">← Back to write-ups</a>
       <div id="markdown-body"></div>
-      <div id="loading">Carregando...</div>
+      <div id="loading">Loading...</div>
       <div id="error" style="display: none; color: #ff6b6b;"></div>
     </main>
 
@@ -52,13 +52,13 @@
       if (!platform || !slug) {
         loadingEl.style.display = 'none';
         errorEl.style.display = 'block';
-        errorEl.textContent = 'Parâmetros inválidos. Use: writeup.html?platform=htb|vulnlab|offsec&slug=nome-do-arquivo';
+        errorEl.textContent = 'Invalid parameters. Use: writeup.html?platform=htb|vulnlab|offsec&slug=filename';
         return;
       }
 
       fetch(mdPath)
         .then(function (r) {
-          if (!r.ok) throw new Error('Arquivo não encontrado: ' + mdPath);
+          if (!r.ok) throw new Error('File not found: ' + mdPath);
           return r.text();
         })
         .then(function (md) {
@@ -77,12 +77,11 @@
               return '<img' + attrs + 'src="' + resolved + '"';
             }
           );
-          // Same for markdown image syntax already converted to img tags - handled above
         })
         .catch(function (err) {
           loadingEl.style.display = 'none';
           errorEl.style.display = 'block';
-          errorEl.textContent = err.message || 'Erro ao carregar o write-up.';
+          errorEl.textContent = err.message || 'Error loading write-up.';
         });
     })();
   </script>
