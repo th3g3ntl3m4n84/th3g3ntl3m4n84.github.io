@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Write-up | Joao Paulo Figueiredo Guedes</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <nav>
+        <a href="index.html">Início</a>
+        <a href="writeups.html">← Write-ups</a>
+      </nav>
+    </header>
+
+    <main class="writeup-content" id="content">
+      <a href="writeups.html" class="back-link">← Voltar aos write-ups</a>
+      <div id="markdown-body"></div>
+      <div id="loading">Carregando...</div>
+      <div id="error" style="display: none; color: #ff6b6b;"></div>
+    </main>
+
+    <footer>
+      <p><a href="index.html" style="color: var(--cyan); text-decoration: none;">Joao Paulo Figueiredo Guedes</a></p>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var platform = params.get('platform'); // htb | vulnlab | offsec
+      var slug = params.get('slug');
+
+      var base = '';
+      // GitHub Pages: if site is at username.github.io/repo-name/, base = /repo-name/
+      var pathname = window.location.pathname;
+      if (pathname.indexOf('/writeup.html') !== -1) {
+        var pathParts = pathname.split('/').filter(Boolean);
+        if (pathParts.length > 1) base = '/' + pathParts.slice(0, -1).join('/') + '/';
+      }
+
+      var mdPath = base + 'writeups/' + platform + '/' + slug + '.md';
+      var imageBase = base + 'writeups/' + platform + '/';
+
+      var loadingEl = document.getElementById('loading');
+      var errorEl = document.getElementById('error');
+      var bodyEl = document.getElementById('markdown-body');
+
+      if (!platform || !slug) {
+        loadingEl.style.display = 'none';
+        errorEl.style.display = 'block';
+        errorEl.textContent = 'Parâmetros inválidos. Use: writeup.html?platform=htb|vulnlab|offsec&slug=nome-do-arquivo';
+        return;
+      }
+
+      fetch(mdPath)
+        .then(function (r) {
+          if (!r.ok) throw new Error('Arquivo não encontrado: ' + mdPath);
+          return r.text();
+        })
+        .then(function (md) {
+          loadingEl.style.display = 'none';
+          marked.setOptions({
+            gfm: true,
+            breaks: true
+          });
+          var html = marked.parse(md);
+          // Rewrite relative image paths to be under this write-up's folder (for GitHub Pages)
+          bodyEl.innerHTML = html.replace(
+            /<img([^>]+)src=["']([^"']+)["']/gi,
+            function (_, attrs, src) {
+              if (src.startsWith('http') || src.startsWith('//') || src.startsWith('data:')) return '<img' + attrs + 'src="' + src + '"';
+              var resolved = src.startsWith('/') ? src : imageBase + (src.startsWith('images/') ? src : 'images/' + src);
+              return '<img' + attrs + 'src="' + resolved + '"';
+            }
+          );
+          // Same for markdown image syntax already converted to img tags - handled above
+        })
+        .catch(function (err) {
+          loadingEl.style.display = 'none';
+          errorEl.style.display = 'block';
+          errorEl.textContent = err.message || 'Erro ao carregar o write-up.';
+        });
+    })();
+  </script>
+</body>
+</html>

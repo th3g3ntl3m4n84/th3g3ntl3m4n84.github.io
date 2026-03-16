@@ -1,0 +1,346 @@
+/* Hacker-style portfolio - GitHub Pages */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Share+Tech+Mono&display=swap');
+
+:root {
+  --bg-dark: #0a0e0f;
+  --bg-card: #0d1214;
+  --border: #1a2f1a;
+  --green: #00ff41;
+  --green-dim: #00cc33;
+  --cyan: #00d4ff;
+  --cyan-dim: #0099bb;
+  --text: #c0c0c0;
+  --text-bright: #e0e0e0;
+  --glow: rgba(0, 255, 65, 0.3);
+  --font-mono: 'JetBrains Mono', 'Share Tech Mono', 'Consolas', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-mono);
+  background: var(--bg-dark);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Subtle grid background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Header / Nav */
+header {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+nav a {
+  color: var(--green);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.85rem;
+  transition: color 0.2s, text-shadow 0.2s;
+}
+
+nav a:hover {
+  color: var(--cyan);
+  text-shadow: 0 0 8px var(--glow);
+}
+
+/* Hero */
+.hero {
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.hero .prompt {
+  color: var(--green-dim);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero h1 {
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  color: var(--green);
+  text-shadow: 0 0 20px var(--glow);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
+}
+
+.hero .tagline {
+  color: var(--cyan);
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+/* Sections */
+section {
+  padding: 3rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+section:last-of-type {
+  border-bottom: none;
+}
+
+.section-title {
+  font-size: 1rem;
+  color: var(--green);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.section-title::before {
+  content: '>';
+  color: var(--cyan);
+}
+
+/* Cards */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  border-color: var(--green-dim);
+  box-shadow: 0 0 20px rgba(0, 255, 65, 0.08);
+}
+
+.card h3 {
+  color: var(--green);
+  font-size: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+.card .meta {
+  color: var(--cyan-dim);
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.card p {
+  color: var(--text-bright);
+  font-size: 0.9rem;
+}
+
+.card a {
+  color: var(--cyan);
+  text-decoration: none;
+  font-size: 0.85rem;
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+
+.card a:hover {
+  text-decoration: underline;
+  color: var(--green);
+}
+
+/* Certifications list */
+.cert-list {
+  list-style: none;
+}
+
+.cert-list li {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-bright);
+  font-size: 0.9rem;
+}
+
+.cert-list li:last-child {
+  border-bottom: none;
+}
+
+.cert-list .badge {
+  color: var(--green);
+  margin-right: 0.5rem;
+}
+
+/* Write-up grid (on writeups page) */
+.writeup-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.writeup-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 1.25rem;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.writeup-card:hover {
+  border-color: var(--green-dim);
+  box-shadow: 0 0 16px rgba(0, 255, 65, 0.1);
+}
+
+.writeup-card h3 {
+  color: var(--green);
+  font-size: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+.writeup-card .platform {
+  color: var(--cyan-dim);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+
+.writeup-card p {
+  color: var(--text);
+  font-size: 0.85rem;
+}
+
+.writeup-category {
+  margin-bottom: 2.5rem;
+}
+
+.writeup-category h2 {
+  font-size: 1.1rem;
+  color: var(--cyan);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+/* Write-up viewer (single write-up page) */
+.writeup-content {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.writeup-content h1,
+.writeup-content h2,
+.writeup-content h3 {
+  color: var(--green);
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.writeup-content p {
+  margin-bottom: 1rem;
+  color: var(--text-bright);
+}
+
+.writeup-content img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  margin: 1rem 0;
+}
+
+.writeup-content pre,
+.writeup-content code {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--cyan);
+  padding: 0.2em 0.4em;
+  font-size: 0.9em;
+}
+
+.writeup-content pre {
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.writeup-content pre code {
+  padding: 0;
+  border: none;
+}
+
+.writeup-content a {
+  color: var(--cyan);
+}
+
+.writeup-content a:hover {
+  color: var(--green);
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  color: var(--green);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.back-link:hover {
+  color: var(--cyan);
+}
+
+/* Footer */
+footer {
+  padding: 2rem 0;
+  text-align: center;
+  color: var(--cyan-dim);
+  font-size: 0.8rem;
+  border-top: 1px solid var(--border);
+}
+
+/* Placeholder empty state */
+.empty-writeup {
+  text-align: center;
+  padding: 2rem;
+  color: var(--cyan-dim);
+  font-size: 0.9rem;
+  border: 1px dashed var(--border);
+}
+
+.empty-writeup p {
+  margin-bottom: 0.5rem;
+}

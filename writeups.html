@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Write-ups | Joao Paulo Figueiredo Guedes</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <nav>
+        <a href="index.html">Início</a>
+        <a href="index.html#about">Sobre</a>
+        <a href="index.html#certs">Certificações</a>
+        <a href="index.html#projects">Projetos</a>
+        <a href="writeups.html">Write-ups</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="prompt">$ cat writeups/</p>
+        <h1>Write-ups</h1>
+        <p class="tagline">Hack The Box · VulnLab · OffSec</p>
+      </section>
+
+      <section>
+        <div class="writeup-category">
+          <h2>Hack The Box</h2>
+          <div class="writeup-grid" id="htb-grid">
+            <a href="writeup.html?platform=htb&slug=exemplo" class="writeup-card">
+              <span class="platform">Hack The Box</span>
+              <h3>Exemplo (template)</h3>
+              <p>Template de write-up em Markdown. Adicione novos .md em writeups/hackthebox/ e liste aqui.</p>
+            </a>
+            <!-- Adicione mais write-ups aqui, ex.:
+            <a href="writeup.html?platform=htb&slug=nome-maquina" class="writeup-card">
+              <span class="platform">Hack The Box</span>
+              <h3>Nome da Máquina</h3>
+              <p>Breve descrição.</p>
+            </a>
+            -->
+          </div>
+        </div>
+
+        <div class="writeup-category">
+          <h2>VulnLab</h2>
+          <div class="writeup-grid" id="vulnlab-grid">
+            <div class="empty-writeup">
+              <p>Write-ups VulnLab. Adicione arquivos .md em <code>writeups/vulnlab/</code> e imagens em <code>writeups/vulnlab/images/</code>.</p>
+              <p>Depois inclua um card aqui com link: <code>writeup.html?platform=vulnlab&slug=nome-do-arquivo</code></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="writeup-category">
+          <h2>OffSec (OSCP / Proving Grounds)</h2>
+          <div class="writeup-grid" id="offsec-grid">
+            <div class="empty-writeup">
+              <p>Write-ups OffSec. Adicione arquivos .md em <code>writeups/offsec/</code> e imagens em <code>writeups/offsec/images/</code>.</p>
+              <p>Depois inclua um card aqui com link: <code>writeup.html?platform=offsec&slug=nome-do-arquivo</code></p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p><a href="index.html" style="color: var(--cyan); text-decoration: none;">← Voltar ao início</a></p>
+    </footer>
+  </div>
+</body>
+</html>
